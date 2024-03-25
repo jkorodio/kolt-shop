@@ -44,7 +44,7 @@ const CartScreen = () => {
                                         </Link>
                                     </Col>
                                     <Col md={2}>
-                                        ₱{item.price}
+                                        ${item.price}
                                     </Col>
                                     <Col md={2}>
                                         <Form.Control as='select' value={item.qty} onChange={(e) => handleAddToCart(item, Number(e.target.value))}>
@@ -68,7 +68,7 @@ const CartScreen = () => {
                             <h2>
                                 SubTotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) item{cartItems.length <= 1 ? '' : 's'}
                             </h2>
-                            ₱{cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}
+                            ${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <Button type='button' className='btn-block' disabled={cartItems.length === 0} onClick={handleCheckout}>Proceed To Checkout</Button>
