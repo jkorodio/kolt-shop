@@ -9,6 +9,7 @@ import Loader from '../components/Loader';
 import { useGetMyOrdersQuery } from '../slices/ordersApiSlice';
 import Message from '../components/Message';
 import { FaTimes } from 'react-icons/fa';
+import { formatDate } from '../utils/dateUtils';
 
 const ProfileScreen = () => {
     const [name, setName] = useState('');
@@ -111,18 +112,21 @@ const ProfileScreen = () => {
                                 {orders.map((order) => (
                                     <tr key={order._id}>
                                         <td>{order._id}</td>
-                                        <td>{order.createdAt.substring(0, 10)}</td>
+                                        {/* <td>{order.createdAt.substring(0, 10)}</td> */}
+                                        <td>{formatDate(order.createdAt, 'MMM DD, YYYY')}</td>
                                         <td>{order.totalPrice}</td>
                                         <td>
                                             {order.isPaid ? (
-                                                order.paidAt.substring(0, 10)
+                                                // order.paidAt.substring(0, 10)
+                                                formatDate(order.paidAt, 'MMM DD, YYYY')
                                             ) : (
                                                 <FaTimes style={{ color: 'red' }} />
                                             )}
                                         </td>
                                         <td>
                                             {order.isDelivered ? (
-                                                order.deliveredAt.substring(0, 10)
+                                                // order.deliveredAt.substring(0, 10)
+                                                formatDate(order.deliveredAt, 'MMM DD, YYYY')
                                             ) : (
                                                 <FaTimes style={{ color: 'red' }} />
                                             )}

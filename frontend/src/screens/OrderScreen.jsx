@@ -25,10 +25,7 @@ const OrderScreen = () => {
 
     const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
 
-    // const [deliverOrder, { isLoading: loadingDeliver }] =
-    //     useDeliverOrderMutation();
-
-    const { userInfo } = useSelector((state) => state.auth);
+    const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation();
 
     const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
 
@@ -38,6 +35,7 @@ const OrderScreen = () => {
         error: errorPayPal,
     } = useGetPaypalClientIdQuery();
 
+    const { userInfo } = useSelector((state) => state.auth);
 
     useEffect(() => {
         if (!errorPayPal && !loadingPayPal && paypal.clientId) {
@@ -93,6 +91,16 @@ const OrderScreen = () => {
             ]
         }).then((orderId) => { return orderId });
     };
+
+    const handleMarkAsDelivered = async () => {
+        try {
+            await deliverOrder(orderId);
+            refetch();
+            toast.success('Order delivered');
+        } catch (err) {
+            toast.error(err?.data?.message || err.message);
+        }
+    }
 
 
     return (
@@ -211,7 +219,12 @@ const OrderScreen = () => {
                                     </ListGroup.Item>
                                 )}
 
-                                {/* MARK AS DELIVERED PLACEHOLDER */}
+                                {loadingDeliver && (<Loader />)}
+                                {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                                    <ListGroup.Item>
+                                        <Button type='button' className='btn btn-block' onClick={handleMarkAsDelivered}>Mark As Delivered</Button>
+                                    </ListGroup.Item>
+                                )}
                             </ListGroup>
                         </Card>
                     </Col>
