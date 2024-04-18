@@ -16,12 +16,7 @@ import {
 const OrderScreen = () => {
     const { id: orderId } = useParams();
 
-    const {
-        data: order,
-        refetch,
-        isLoading,
-        error,
-    } = useGetOrderDetailsQuery(orderId);
+    const { data: order, refetch, isLoading, error, } = useGetOrderDetailsQuery(orderId);
 
     const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
 
@@ -39,20 +34,20 @@ const OrderScreen = () => {
 
     useEffect(() => {
         if (!errorPayPal && !loadingPayPal && paypal.clientId) {
-            const loadPaypalScript = async () => {
+            const loadPaypalScript = () => {
                 paypalDispatch({
                     type: 'resetOptions',
                     value: {
                         'client-id': paypal.clientId,
-                        currency: 'PHP',
+                        currency: 'USD',
                     },
                 });
                 paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
             };
             if (order && !order.isPaid) {
-                if (!window.paypal) {
-                    loadPaypalScript();
-                }
+                // if (!window.paypal) {
+                loadPaypalScript();
+                // }
             }
         }
     }, [errorPayPal, loadingPayPal, order, paypal, paypalDispatch]);
@@ -60,7 +55,7 @@ const OrderScreen = () => {
     const onApprove = (data, actions) => {
         return actions.order.capture().then(async function (details) {
             try {
-                await payOrder({ orderId, details });
+                await payOrder({ orderId, details }).unwrap();
                 refetch();
                 toast.success('Payment successful');
             } catch (err) {
@@ -104,7 +99,7 @@ const OrderScreen = () => {
 
 
     return (
-        isLoading ? (<Loader />) : error ? (<Message>{error}</Message>) : (
+        isLoading ? (<Loader />) : error ? (<Message>{error?.data?.message || error.error}</Message>) : (
             <>
                 <h1>Order {order._id}</h1>
                 <Row>
