@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
 import SearchBox from './SearchBox';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo-header.png';
 import { resetCart } from '../slices/cartSlice';
 
 const Header = () => {
@@ -36,8 +36,8 @@ const Header = () => {
                 <Container>
                     <LinkContainer to='/'>
                         <Navbar.Brand >
-                            <img src={logo} alt='KOLT' style={{ height: '2rem' }} />
-                            KOLT
+                            <img src={logo} alt='KOLT' style={{ height: '2.5rem' }} />
+                            {/* KOLT */}
                         </Navbar.Brand>
                     </LinkContainer>
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />
