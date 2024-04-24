@@ -13,7 +13,7 @@ const PlaceOrderScreen = () => {
     const navigate = useNavigate();
 
     const cart = useSelector((state) => state.cart);
-
+    console.log(cart)
     const [createOrder, { isLoading, error }] = useCreateOrderMutation();
 
     useEffect(() => {
@@ -84,7 +84,7 @@ const PlaceOrderScreen = () => {
                                                 </Col>
                                                 <Col>
                                                     <Link to={`/product/${item.product}`}>
-                                                        {item.name}
+                                                        {item.name}{item.size && <span>&nbsp;-&nbsp;{item.size}</span>}
                                                     </Link>
                                                 </Col>
                                                 <Col md={4}>

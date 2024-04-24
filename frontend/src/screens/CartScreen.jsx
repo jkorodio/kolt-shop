@@ -13,6 +13,7 @@ const CartScreen = () => {
 
     const cart = useSelector((state) => state.cart);
     const { cartItems } = cart;
+    console.log(cartItems)
 
     const handleAddToCart = async (product, qty) => {
         dispatch(addToCart({ ...product, qty }));
@@ -40,7 +41,7 @@ const CartScreen = () => {
                                     </Col>
                                     <Col md={3}>
                                         <Link to={`/product/${item._id}`}>
-                                            {item.name}
+                                            {item.name}{item.size && <span>&nbsp;-&nbsp;{item.size}</span>}
                                         </Link>
                                     </Col>
                                     <Col md={2}>

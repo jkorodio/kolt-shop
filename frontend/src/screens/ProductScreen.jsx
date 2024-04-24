@@ -17,6 +17,7 @@ const ProductScreen = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const [size, setSize] = useState("");
     const [qty, setQty] = useState(1);
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
@@ -28,8 +29,12 @@ const ProductScreen = () => {
     const { userInfo } = useSelector((state) => state.auth);
 
     const handleAddToCart = () => {
-        dispatch(addToCart({ ...product, qty }))
-        navigate('/cart');
+        if (size === "") {
+            toast.error("Please select your size");
+        } else {
+            dispatch(addToCart({ ...product, qty, size }))
+            navigate('/cart');
+        }
     }
 
     const handleSubmit = async (e) => {
@@ -95,6 +100,23 @@ const ProductScreen = () => {
                                             </Col>
                                         </Row>
                                     </ListGroup.Item>
+
+                                    {product.countInStock > 0 && (
+                                        <ListGroup.Item>
+                                            <Row>
+                                                <Col>
+                                                    Size
+                                                </Col>
+                                                <Col>
+                                                    <Form.Control as='select' value={size} onChange={(e) => setSize(e.target.value)}>
+                                                        {["", "3.5Y", "4Y", "4.5Y", "5Y", "5.5Y", "6Y", "6.5Y", "7Y", " 7", "7.5", "8", "8.5", "9", "9.5", "10", "10.5", "11", "11.5", "12", "12.5", "13"].map((x) => (
+                                                            <option key={x} value={x}>{x}</option>
+                                                        ))}
+                                                    </Form.Control>
+                                                </Col>
+                                            </Row>
+                                        </ListGroup.Item>
+                                    )}
 
                                     {product.countInStock > 0 && (
                                         <ListGroup.Item>
