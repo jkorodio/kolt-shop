@@ -3,6 +3,7 @@ import { useGetTopProductsQuery } from '../slices/productsApiSlice';
 import { Carousel, Image } from 'react-bootstrap';
 import Loader from './Loader';
 import Message from './Message';
+import { isMobile } from 'react-device-detect';
 import { Link } from 'react-router-dom';
 
 const ProductCarousel = () => {
@@ -14,7 +15,7 @@ const ProductCarousel = () => {
                 {products.map(product => (
                     <Carousel.Item key={product._id}>
                         <Link to={`/product/${product._id}`}>
-                            <Image src={product.image} alt={product.name} fluid style={{ width: '900px', height: '650px' }} />
+                            <Image src={product.image} alt={product.name} fluid style={!isMobile ? { width: '900px', height: '650px' } : {}} />
                             <Carousel.Caption className='carousel-caption'>
                                 <h2>{product.name} (${product.price})</h2>
                             </Carousel.Caption>
